@@ -76,7 +76,7 @@ public class LoginUserForm {
 		String login = this.getParameter(LOGIN);
 		String password = this.getParameter(PASSWORD);
 		if(password != null || login != null) {
-			if(login.equals("admin") && password.equals("passer")) {
+			if(UtilisateurDao.login(login,password)) {
 				credidentials.put("login",login);
 			} else {
 				errors.put("error",ERROR_LOGIN);

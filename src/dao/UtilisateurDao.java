@@ -101,7 +101,7 @@ public class UtilisateurDao
 				user.setPassword(utilisateur.getPassword());
 				// update on the DB
 				Connection conn = openConnexion();
-				String req = "UPDATE users set nom=?, prenom=?, login=?, password=? WHERE id = ?";
+				String req = "UPDATE users set nom=?, prenom=?, login=?, password=? WHERE (id = ?)";
 				try{
 					PreparedStatement ps = conn.prepareStatement(req);
 					ps.setString(1, utilisateur.getNom());
@@ -131,7 +131,7 @@ public class UtilisateurDao
 			if (utilisateur.getId() == id)
 			{
 				Connection conn = openConnexion();
-				String req = "DELETE FROM users WHERE id = ?";
+				String req = "DELETE FROM users WHERE (id = ?)";
 				try{
 					PreparedStatement ps = conn.prepareStatement(req);
 					ps.setInt(1, id);
@@ -149,5 +149,26 @@ public class UtilisateurDao
 
 		return false;
 	}
+	
+	public static boolean login(String login, String pass) {
+		int isReg = 0;
+		Connection  conn = openConnexion();
+		if( conn != null) {
+			String req = "SELECT * FROM users WHERE login = '"+login+"' AND password ='"+pass+"'";
+			try {
+				Statement ps = conn.createStatement();
+				
+				ResultSet res = ps.executeQuery(req);
+				while(res.next()) {
+					isReg++;
+				}
+				
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	   return isReg == 1 ? true : false;
+	}
+
 
 }
