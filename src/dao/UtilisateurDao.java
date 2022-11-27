@@ -21,7 +21,7 @@ public class UtilisateurDao
 		if( conn != null) {
 			try {
 				Statement stm = conn.createStatement();
-				String req = "select * from users";
+				String req = "SELECT * FROM users";
 				ResultSet res = stm.executeQuery(req);
 				while(res.next()) {
 					Utilisateur user = new Utilisateur(res.getInt("id"), res.getString("nom"), res.getString("prenom"), res.getString("login"), res.getString("password"));
@@ -61,7 +61,7 @@ public class UtilisateurDao
 	public static boolean ajouter(Utilisateur utilisateur)
 	{
 		Connection conn = openConnexion();
-		String req = "insert into users (nom, prenom, login, password) values (?, ?, ?, ?)";
+		String req = "INSERT INTO users (nom, prenom, login, password) VALUES (?, ?, ?, ?)";
 		try{
 			PreparedStatement ps = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, utilisateur.getNom());
@@ -101,7 +101,7 @@ public class UtilisateurDao
 				user.setPassword(utilisateur.getPassword());
 				// update on the DB
 				Connection conn = openConnexion();
-				String req = "update users set nom=?, prenom=?, login=?, password=? where (id = ?)";
+				String req = "UPDATE users set nom=?, prenom=?, login=?, password=? WHERE id = ?";
 				try{
 					PreparedStatement ps = conn.prepareStatement(req);
 					ps.setString(1, utilisateur.getNom());
@@ -131,7 +131,7 @@ public class UtilisateurDao
 			if (utilisateur.getId() == id)
 			{
 				Connection conn = openConnexion();
-				String req = "delete from users where ( id = ? )";
+				String req = "DELETE FROM users WHERE id = ?";
 				try{
 					PreparedStatement ps = conn.prepareStatement(req);
 					ps.setInt(1, id);
